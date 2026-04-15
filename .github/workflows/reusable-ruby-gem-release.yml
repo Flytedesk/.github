@@ -95,7 +95,14 @@ jobs:
           cat "$file"
 
       - name: Update Gemfile.lock
-        run: bundle install
+        # ruby/setup-ruby sets deployment=true when bundler-cache is on,
+        # which makes `bundle install` refuse to rewrite Gemfile.lock.
+        # We just bumped the gem's own version, so the lockfile MUST
+        # change. Clear the flags, then install.
+        run: |
+          bundle config unset deployment
+          bundle config unset frozen
+          bundle install
 
       - name: Commit, tag, and push
         env:
