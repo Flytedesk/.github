@@ -1,0 +1,23 @@
+name: reusable-ruby-gem-release-pr
+on:
+  workflow_call:
+    inputs:
+      gem_name:
+        required: true
+        type: string
+      target_branch:
+        required: false
+        type: string
+        default: main
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release_please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          release-type: ruby
+          package-name: ${{ inputs.gem_name }}
+          target-branch: ${{ inputs.target_branch }}
