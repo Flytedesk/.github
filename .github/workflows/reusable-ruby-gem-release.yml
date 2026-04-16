@@ -21,10 +21,6 @@ on:
         required: true
         type: string
         description: "Gem name; used to locate lib/<gem_name>/version.rb"
-      ruby_version:
-        required: false
-        type: string
-        default: "3.4"
       target_branch:
         required: false
         type: string
@@ -60,7 +56,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ inputs.ruby_version }}
+          ruby-version-file: '.ruby-version'
           bundler-cache: true
 
       - name: Ensure tag does not already exist
